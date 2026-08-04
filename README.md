@@ -1,75 +1,82 @@
-# React + TypeScript + Vite
+# Supabase React Sales Dashboard
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A lightweight React + Vite dashboard that visualizes sales deal totals from a Supabase Postgres table in real time.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- React 19 + Vite frontend
+- Supabase JS client for database access and realtime updates
+- Sales totals grouped by deal name
+- Responsive line chart powered by `recharts`
+- Form for inserting new sales deals into Supabase
+- Live updates via Postgres change subscriptions
 
-## React Compiler
+## What it does
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+This project connects to a Supabase project and reads from a `sales_deals` table. It aggregates deal values by name, displays totals in a line chart, and refreshes automatically when new deals are added.
 
-## Expanding the ESLint configuration
+The dashboard also includes a simple form so users can add new deals. New entries are inserted into Supabase and the chart updates immediately through the realtime subscription.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## Project structure
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- `src/main.tsx` – React entry point
+- `src/App.tsx` – Renders the header and dashboard
+- `src/Header.tsx` – App header UI
+- `src/Dashboard.tsx` – Fetches aggregated data and renders the chart
+- `src/Form.tsx` – Submit form for adding new deals
+- `src/supabase-client.ts` – Supabase client setup using environment variables
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Environment variables
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+The app expects the following environment variables in a `.env` file or your shell environment:
 
+- `VITE_SUPABASE_URL` – your Supabase project URL
+- `VITE_SUPABASE_KEY` – your Supabase anon/public key
+
+Example `.env`:
+
+```env
+VITE_SUPABASE_URL=https://xyzcompany.supabase.co
+VITE_SUPABASE_KEY=public-anon-key
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Requirements
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- Node.js 18+ (or compatible)
+- `pnpm` installed
+- Supabase project with a `sales_deals` table
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## Installation
 
+```bash
+pnpm install
 ```
+
+## Run locally
+
+```bash
+pnpm dev
+```
+
+Then open the local Vite URL shown in the terminal.
+
+## Build
+
+```bash
+pnpm build
+```
+
+## Preview production build
+
+```bash
+pnpm preview
+```
+
+## Notes
+
+- The app uses Supabase realtime subscriptions to refresh the chart when rows change in the `sales_deals` table.
+- The form selects from the current agent names in the fetched metrics and submits a new deal amount for the selected name.
+
+## License
+
+This repository is currently private and unlicensed.
