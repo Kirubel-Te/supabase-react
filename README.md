@@ -7,7 +7,6 @@ A lightweight React + Vite dashboard that visualizes sales deal totals from a Su
 - React 19 + Vite frontend
 - Supabase JS client for database access and realtime updates
 - Sales totals grouped by deal name
-- Responsive line chart powered by `recharts`
 - Form for inserting new sales deals into Supabase
 - Live updates via Postgres change subscriptions
 
